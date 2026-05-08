@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-Approval Request — Pagebrook Capital</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f4f6f9;
+      color: #414143;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1d4d80 0%, #28609d 60%, #3276b8 100%);
+      padding: 64px 40px 56px;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-left h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .hero-left h1 em {
+      font-style: normal;
+      color: #a8caf0;
+    }
+
+    .hero-left .tagline {
+      font-size: 1.05rem;
+      opacity: 0.88;
+      line-height: 1.55;
+      margin-bottom: 36px;
+    }
+
+    .value-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .value-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .value-list .icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .value-list .icon svg {
+      width: 15px;
+      height: 15px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .value-list .value-text strong {
+      display: block;
+      font-size: 0.97rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .value-list .value-text p {
+      font-size: 0.88rem;
+      opacity: 0.82;
+      line-height: 1.5;
+    }
+
+    /* ── Form card ── */
+    .form-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 40px 36px 44px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    }
+
+    .form-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #28609d;
+      margin-bottom: 6px;
+    }
+
+    .form-card .form-subhead {
+      font-size: 0.88rem;
+      color: #666;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    /* ── Fields ── */
+    .field { margin-bottom: 16px; }
+    .field:last-of-type { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #414143;
+      margin-bottom: 5px;
+    }
+
+    label .req { color: #28609d; margin-left: 2px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid #d0d7e2;
+      border-radius: 7px;
+      font-size: 0.93rem;
+      color: #414143;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      font-family: inherit;
+    }
+
+    input:focus {
+      border-color: #28609d;
+      box-shadow: 0 0 0 3px rgba(40,96,157,0.10);
+    }
+
+    input.error { border-color: #e03060; }
+
+    /* Price prefix */
+    .price-wrap { position: relative; }
+    .price-wrap .price-prefix {
+      position: absolute; left: 13px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.93rem; color: #888; pointer-events: none;
+    }
+    .price-wrap input { padding-left: 24px; }
+
+    .field-note { font-size: 0.78rem; color: #9ca3af; margin-top: 4px; }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: #e03060;
+      margin-top: 4px;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* ── Submit ── */
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: #28609d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1d4d80; }
+    .btn-submit:active:not(:disabled) { transform: scale(0.99); }
+    .btn-submit:disabled { background: #8aafd0; cursor: not-allowed; }
+
+    .btn-spinner {
+      width: 17px; height: 17px; flex-shrink: 0;
+      border: 2.5px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: #999;
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* ── Success ── */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+
+    .success-state .check-icon {
+      width: 56px; height: 56px;
+      background: #eaf3fe;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .success-state .check-icon svg {
+      width: 26px; height: 26px;
+      stroke: #28609d; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .success-state h3 {
+      font-size: 1.3rem; font-weight: 700;
+      color: #28609d; margin-bottom: 10px;
+    }
+
+    .success-state p { font-size: 0.93rem; color: #555; line-height: 1.6; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero-left { display: none; }
+      .hero { padding: 20px 16px; min-height: 100vh; align-items: flex-start; }
+      .hero-inner { grid-template-columns: 1fr; gap: 0; }
+      .form-card { padding: 28px 20px 32px; border-radius: 10px; }
+      .form-card h2 { font-size: 1.1rem; }
+      .field { margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+
+    <!-- Left: value props -->
+    <div class="hero-left">
+      <h1>Get Pre-Approved<br><em>in Minutes.</em></h1>
+      <p class="tagline">
+        Submit your deal details and receive a signed pre-approval letter in your inbox — valid for 45 days, backed by available capital.
+      </p>
+
+      <ul class="value-list">
+        <li>
+          <div class="icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="value-text">
+            <strong>Same-Day Letters</strong>
+            <p>Your pre-approval letter is generated instantly and delivered to your inbox — ready to share with sellers and agents.</p>
+          </div>
+        </li>
+        <li>
+          <div class="icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="value-text">
+            <strong>Up to $1,000,000</strong>
+            <p>We finance fix-and-flip, bridge, and rental deals across most US markets with flexible, competitive terms.</p>
+          </div>
+        </li>
+        <li>
+          <div class="icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="value-text">
+            <strong>Liquid Funds, Ready to Close</strong>
+            <p>No delays, no surprises. Pagebrook Capital maintains available funds and moves fast when you're ready to close.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right: form -->
+    <div>
+      <div class="form-card" id="formCard">
+
+        <div id="formContent">
+          <h2>Request Your Pre-Approval</h2>
+          <p class="form-subhead">Fill out the form below and receive your letter via email within minutes.</p>
+
+          <form id="preapprovalForm" novalidate>
+
+            <div class="field">
+              <label for="borrowerCompany">Borrower Company Name (LLC) <span class="req">*</span></label>
+              <input type="text" id="borrowerCompany" name="borrowerCompany" autocomplete="organization" placeholder="e.g. Maple Ridge Investments, LLC" />
+              <div class="field-error" id="err-borrowerCompany">Please enter the borrower company name.</div>
+            </div>
+
+            <div class="field">
+              <label for="propertyAddress">Property Address <span class="req">*</span></label>
+              <input type="text" id="propertyAddress" name="propertyAddress" placeholder="Start typing a US address…" />
+              <div class="field-note">Select from the dropdown to confirm</div>
+              <div class="field-error" id="err-propertyAddress">Please select an address from the dropdown.</div>
+            </div>
+
+            <div class="field">
+              <label for="purchasePrice">Purchase Price <span class="req">*</span></label>
+              <div class="price-wrap">
+                <span class="price-prefix">$</span>
+                <input type="text" id="purchasePrice" name="purchasePrice" placeholder="0" inputmode="numeric" />
+              </div>
+              <div class="field-note">Maximum $1,000,000</div>
+              <div class="field-error" id="err-purchasePrice">Please enter a valid purchase price (max $1,000,000).</div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" />
+              <div class="field-note">Your pre-approval letter will be sent here</div>
+              <div class="field-error" id="err-email">Please enter a valid email address.</div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Contact Phone Number <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="(555) 555-5555" />
+              <div class="field-error" id="err-phone">Please enter a valid 10-digit US phone number.</div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span id="btn-text">Request Pre-Approval</span>
+              <span id="btn-loading" style="display:none;align-items:center;gap:10px;">
+                <span class="btn-spinner"></span>
+                <span>Sending request…</span>
+              </span>
+            </button>
+            <p class="form-note">Your signed letter will arrive in your inbox within minutes.</p>
+
+          </form>
+        </div>
+
+        <!-- Success state -->
+        <div class="success-state" id="successState">
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Letter sent!</h3>
+          <p>Your pre-approval letter is on its way to<br><strong id="sentTo"></strong>.<br>Please check your inbox (and spam, just in case).</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ Scripts ════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var WEBHOOK     = 'https://kenleal.app.n8n.cloud/webhook/preapproval';
+  var EXCLUDED    = ['ND','SD','MN','IA','VT','CA','NV','UT'];
+  var STATE_NAMES = {ND:'North Dakota',SD:'South Dakota',MN:'Minnesota',IA:'Iowa',VT:'Vermont',CA:'California',NV:'Nevada',UT:'Utah'};
+
+  var selectedAddress = null;
+  var selectedState   = null;
+
+  /* ── Phone auto-format ── */
+  document.getElementById('phone').addEventListener('input', function () {
+    var d = this.value.replace(/\D/g,'').slice(0,10);
+    if      (d.length >= 7) this.value = '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+    else if (d.length >= 4) this.value = '(' + d.slice(0,3) + ') ' + d.slice(3);
+    else if (d.length >= 1) this.value = '(' + d;
+    else                    this.value = '';
+  });
+
+  /* ── Price auto-format ── */
+  document.getElementById('purchasePrice').addEventListener('input', function () {
+    var n = this.value.replace(/\D/g,'');
+    this.value = n ? parseInt(n,10).toLocaleString() : '';
+  });
+
+  /* ── Error helpers ── */
+  function markField(id, hasError, msg) {
+    var inp = document.getElementById(id);
+    var err = document.getElementById('err-' + id);
+    if (!inp || !err) return;
+    inp.classList.toggle('error', hasError);
+    if (msg) err.textContent = msg;
+    err.classList.toggle('visible', hasError);
+  }
+
+  function numPrice() {
+    return parseInt(document.getElementById('purchasePrice').value.replace(/\D/g,''), 10) || 0;
+  }
+
+  /* ── Validation ── */
+  function validate() {
+    var ok = true;
+
+    if (!document.getElementById('borrowerCompany').value.trim()) {
+      markField('borrowerCompany', true); ok = false;
+    } else { markField('borrowerCompany', false); }
+
+    if (!selectedAddress) {
+      markField('propertyAddress', true, 'Please select an address from the dropdown.'); ok = false;
+    } else if (selectedState && EXCLUDED.indexOf(selectedState) !== -1) {
+      markField('propertyAddress', true, 'We currently do not lend in ' + (STATE_NAMES[selectedState] || selectedState) + '.'); ok = false;
+    } else { markField('propertyAddress', false); }
+
+    var p = numPrice();
+    if (!p || p > 1000000) {
+      markField('purchasePrice', true); ok = false;
+    } else { markField('purchasePrice', false); }
+
+    var em = document.getElementById('email').value.trim();
+    if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+      markField('email', true); ok = false;
+    } else { markField('email', false); }
+
+    var ph = document.getElementById('phone').value.replace(/\D/g,'');
+    if (ph.length !== 10) {
+      markField('phone', true); ok = false;
+    } else { markField('phone', false); }
+
+    return ok;
+  }
+
+  /* ── Date format M/D/YY ── */
+  function fmtDate(d) {
+    return (d.getMonth()+1) + '/' + d.getDate() + '/' + String(d.getFullYear()).slice(-2);
+  }
+
+  /* ── Submit ── */
+  document.getElementById('preapprovalForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+
+    var btn     = document.getElementById('submitBtn');
+    var btnText = document.getElementById('btn-text');
+    var btnLoad = document.getElementById('btn-loading');
+
+    btn.disabled          = true;
+    btnText.style.display = 'none';
+    btnLoad.style.display = 'flex';
+
+    var data = {
+      borrowerCompany: document.getElementById('borrowerCompany').value.trim(),
+      propertyAddress: selectedAddress,
+      purchasePrice:   String(numPrice()),
+      email:           document.getElementById('email').value.trim(),
+      phone:           document.getElementById('phone').value.trim(),
+      date:            fmtDate(new Date())
+    };
+
+    fetch(WEBHOOK, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(data)
+    })
+    .then(function (res) {
+      if (res.ok) {
+        document.getElementById('sentTo').textContent         = data.email;
+        document.getElementById('formContent').style.display  = 'none';
+        document.getElementById('successState').style.display = 'block';
+      } else {
+        alert('Something went wrong. Please try again or contact us directly.');
+      }
+    })
+    .catch(function () {
+      alert('Something went wrong. Please try again or contact us directly.');
+    })
+    .finally(function () {
+      btn.disabled          = false;
+      btnText.style.display = 'inline';
+      btnLoad.style.display = 'none';
+    });
+  });
+
+  /* ── Clear errors on input ── */
+  ['borrowerCompany','propertyAddress','purchasePrice','email','phone'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', function () { markField(id, false); });
+  });
+
+  /* ── Google Maps Places Autocomplete ── */
+  window.pbcInitMaps = function () {
+    var input = document.getElementById('propertyAddress');
+    var ac = new google.maps.places.Autocomplete(input, {
+      types: ['address'],
+      componentRestrictions: { country: 'us' },
+      fields: ['formatted_address', 'address_components']
+    });
+
+    ac.addListener('place_changed', function () {
+      var place = ac.getPlace();
+      if (!place || !place.formatted_address) return;
+
+      selectedAddress = place.formatted_address;
+      selectedState   = null;
+
+      (place.address_components || []).forEach(function (c) {
+        if (c.types.indexOf('administrative_area_level_1') !== -1) {
+          selectedState = c.short_name;
+        }
+      });
+
+      if (selectedState && EXCLUDED.indexOf(selectedState) !== -1) {
+        markField('propertyAddress', true, 'We currently do not lend in ' + (STATE_NAMES[selectedState] || selectedState) + '.');
+      } else {
+        markField('propertyAddress', false);
+      }
+    });
+
+    input.addEventListener('input', function () {
+      selectedAddress = null;
+      selectedState   = null;
+    });
+  };
+
+})();
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCNlkcUWToVFNAV03OwiHfouIvmo8UpUE&libraries=places&callback=pbcInitMaps" async defer></script>
+
+</body>
+</html>
